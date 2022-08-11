@@ -125,11 +125,6 @@ class MathExtension(Extension):
             # has 25
             md.preprocessors.register(preprocessor, 'math-gitlab', 27)
 
-        for i, pattern in enumerate(mathpatterns):
-            pattern._add_preview = add_preview
-            pattern._content_type = content_type
-            # we should have higher priority than 'escape' which has 180
-            md.inlinePatterns.register(pattern, 'math-%d' % i, 185)
         for i, pattern in enumerate(inlinemathpatterns):
             pattern._add_preview = add_preview
             pattern._content_type = content_type
@@ -137,6 +132,11 @@ class MathExtension(Extension):
             # 'backtick' which has 190
             priority = 195 if use_gitlab_delimiters else 185
             md.inlinePatterns.register(pattern, 'math-inline-%d' % i, priority)
+        for i, pattern in enumerate(mathpatterns):
+            pattern._add_preview = add_preview
+            pattern._content_type = content_type
+            # we should have higher priority than 'escape' which has 180
+            md.inlinePatterns.register(pattern, 'math-%d' % i, 185)
         if self.getConfig('enable_dollar_delimiter'):
             md.ESCAPED_CHARS.append('$')
 
